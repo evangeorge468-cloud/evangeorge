@@ -348,6 +348,259 @@ function applyGymConfig() {
 
 applyGymConfig();
 
+const PAGE_COPY = {
+  en: {
+    skip: "Skip to content", navigation: "Main navigation", language: "Language",
+    training: "Training", membership: "Membership", coaches: "Coaches", contact: "Contact",
+    joinHouse: "Join the house", tagline: "YOUR WORK. YOUR WEIGHT. YOUR WAY.",
+    heroTitle: ["BUILT BY", "EFFORT."],
+    heroDescription: "A training space for showing up, getting stronger, and doing it again. No shortcuts. Just good work.",
+    joinNow: "JOIN NOW", explore: "Explore the gym", caption: "STRENGTH IS EARNED HERE",
+    scrollTraining: "Scroll to training", approachLabel: "Our approach", approach: ["LESS TALK.", "MORE REPS."],
+    approachDetail: "Space to focus. People who know their stuff. A training floor built for every version of your strong.",
+    trainingEyebrow: "FIND YOUR TRAINING", trainingTitle: ["ROOM TO", "GET AFTER IT."],
+    trainingNote: "Whether you’re building a routine or chasing a new personal best, there’s a place for you on the floor.",
+    programs: [
+      ["01 / OPEN FLOOR", "STRENGTH", "TRAINING", "Racks, free weights, and room to find your rhythm."],
+      ["02 / SMALL GROUP", "GROUP", "TRAINING", "Good coaching. Better energy. Your pace."],
+      ["03 / ONE TO ONE", "PERSONAL", "COACHING", "A plan shaped around your goals and your life."]
+    ],
+    membershipEyebrow: "PICK YOUR PACE", membershipTitle: ["YOUR TRAINING.", "YOUR TERMS."],
+    membershipNote: "Straightforward options. No mystery math. Choose a starting point and we’ll help with the rest.",
+    planIndex: ["01 — THE START", "02 — THE ROUTINE", "03 — THE FOCUS"],
+    planName: ["OPEN GYM", "ALL ACCESS", "COACHING"],
+    planDescription: [
+      "Your space, your schedule. Get to know the floor and build a routine that sticks.",
+      "A little structure, a lot of options. Make the most of every visit.",
+      "Personal attention and a considered plan, built around what you want to do."
+    ],
+    features: [
+      ["Full gym access", "Strength and cardio floor", "Intro session with a coach"],
+      ["Everything in Open Gym", "Group training sessions", "Monthly progress check-in"],
+      ["One-to-one coaching", "Personalized training plan", "Flexible coaching schedule"]
+    ],
+    askPlan: "ASK ABOUT THIS PLAN", featured: "MOST FLEXIBLE",
+    planFootnote: "Membership details and pricing are available by inquiry. No prices or contact details are invented here.",
+    coachesEyebrow: "GOOD PEOPLE. GOOD COACHING.", coachesTitle: ["KNOWLEDGE", "IN YOUR CORNER."],
+    coachesNote: "Our coaching team meets you where you are and helps you take the next step with confidence.",
+    coachName: ["STRENGTH COACH", "GROUP COACH", "PERSONAL COACH"],
+    coachNumberPrefix: "COACH /",
+    coachCaption: ["Barbell work · Foundations", "Movement · Conditioning", "One-to-one · Goal setting"],
+    coachNote: "Coach names and biographies can be added when the team details are ready.",
+    contactEyebrow: "YOUR NEXT SET STARTS HERE", contactTitle: ["LET’S", "GET TO WORK."],
+    contactIntro: "Tell us what you’re looking for. We’ll help you find the right place to start.",
+    contactDetails: "No address or phone number has been supplied. Add your gym’s real details before publishing.",
+    nameLabel: "YOUR NAME", namePlaceholder: "Name", emailLabel: "EMAIL ADDRESS",
+    interestLabel: "I’M INTERESTED IN", notSure: "Not sure yet", messageLabel: "YOUR MESSAGE",
+    messagePlaceholder: "How can we help?", submit: "CONTINUE IN WHATSAPP",
+    formNote: "WhatsApp opens with a pre-filled draft. Review and send it there; this form does not send or store your inquiry.",
+    footerTagline: "BUILT BY EFFORT. OPEN TO EVERYONE.", backTop: "BACK TO TOP",
+    menuOpen: "Open navigation", menuClose: "Close navigation",
+    errorWhatsApp: "WhatsApp is not configured for this gym yet. Your inquiry was not sent.",
+    readyWhatsApp: "Your inquiry is ready in WhatsApp. Review and send it there.",
+    blockedWhatsApp: "Your browser blocked the WhatsApp window. ", openInquiry: "Open your WhatsApp inquiry",
+    introMessage: "Hello {gym}, I would like to make an inquiry.", planLabel: "Membership plan",
+    messageLabelWhatsApp: "Message"
+  },
+  ar: {
+    skip: "انتقل إلى المحتوى", navigation: "القائمة الرئيسية", language: "اللغة",
+    training: "التدريب", membership: "العضوية", coaches: "المدربون", contact: "تواصل معنا",
+    joinHouse: "انضم إلى النادي", tagline: "جهدك. أوزانك. طريقتك.",
+    heroTitle: ["صُنِعَ", "بالجهد."],
+    heroDescription: "مساحة تدريب تمنحك فرصة الحضور والتطور والعودة من جديد. بلا طرق مختصرة، فقط عمل جاد.",
+    joinNow: "انضم الآن", explore: "اكتشف النادي", caption: "القوة تُكتسب هنا",
+    scrollTraining: "انتقل إلى قسم التدريب", approachLabel: "نهجنا", approach: ["كلام أقل.", "تمارين أكثر."],
+    approachDetail: "مساحة للتركيز، وخبرات موثوقة، وأرضية تدريب تناسب كل مستوى من قوتك.",
+    trainingEyebrow: "اختر تدريبك", trainingTitle: ["مساحة", "لإنجاز المزيد."],
+    trainingNote: "سواء كنت تبني روتينًا أو تسعى إلى أفضل أداء لك، ستجد مكانك على أرضية التدريب.",
+    programs: [
+      ["01 / تدريب مفتوح", "تمارين", "القوة", "أقفاص تدريب وأوزان حرة ومساحة لتجد إيقاعك."],
+      ["02 / مجموعات صغيرة", "تدريب", "جماعي", "توجيه جيد، وطاقة أفضل، وبالوتيرة التي تناسبك."],
+      ["03 / تدريب فردي", "تدريب", "شخصي", "خطة مصممة حول أهدافك وحياتك."]
+    ],
+    membershipEyebrow: "اختر ما يناسب وتيرتك", membershipTitle: ["تدريبك.", "شروطك."],
+    membershipNote: "خيارات واضحة بلا حسابات مبهمة. اختر نقطة البداية وسنساعدك في الباقي.",
+    planIndex: ["01 — البداية", "02 — الروتين", "03 — التركيز"],
+    planName: ["الصالة المفتوحة", "دخول شامل", "التدريب الشخصي"],
+    planDescription: [
+      "مساحتك ووقتك. تعرّف على أرضية التدريب وابنِ روتينًا يستمر.",
+      "قليل من التنظيم وخيارات كثيرة. استفد من كل زيارة.",
+      "اهتمام شخصي وخطة مدروسة تناسب ما تريد تحقيقه."
+    ],
+    features: [
+      ["دخول كامل إلى الصالة", "منطقة القوة وتمارين القلب", "جلسة تعريفية مع مدرب"],
+      ["كل ما يتضمنه اشتراك الصالة المفتوحة", "جلسات تدريب جماعي", "متابعة شهرية للتقدم"],
+      ["تدريب فردي مع مدرب", "خطة تدريب مخصصة", "مواعيد تدريب مرنة"]
+    ],
+    askPlan: "استفسر عن هذه العضوية", featured: "الأكثر مرونة",
+    planFootnote: "تتوفر تفاصيل العضوية والأسعار عند الاستفسار. لم تتم إضافة أسعار أو بيانات تواصل غير مؤكدة.",
+    coachesEyebrow: "فريق مميز. تدريب بإتقان.", coachesTitle: ["خبرة", "تساندك."],
+    coachesNote: "يبدأ فريق التدريب من مستواك الحالي ويساعدك على اتخاذ خطوتك التالية بثقة.",
+    coachName: ["مدرب القوة", "مدرب التدريب الجماعي", "المدرب الشخصي"],
+    coachNumberPrefix: "مدرب /",
+    coachCaption: ["تمارين الأثقال · الأساسيات", "الحركة · اللياقة", "تدريب فردي · تحديد الأهداف"],
+    coachNote: "يمكن إضافة أسماء المدربين ونبذهم عند توفر تفاصيل الفريق.",
+    contactEyebrow: "تبدأ مجموعتك القادمة هنا", contactTitle: ["هيا", "نبدأ العمل."],
+    contactIntro: "أخبرنا بما تبحث عنه، وسنساعدك في العثور على نقطة البداية المناسبة.",
+    contactDetails: "لم يتم تزويدنا بعنوان أو رقم هاتف. أضف بيانات النادي الحقيقية قبل النشر.",
+    nameLabel: "اسمك", namePlaceholder: "الاسم", emailLabel: "البريد الإلكتروني",
+    interestLabel: "ما الذي يهمك؟", notSure: "لم أقرر بعد", messageLabel: "رسالتك",
+    messagePlaceholder: "كيف يمكننا مساعدتك؟", submit: "المتابعة إلى واتساب",
+    formNote: "سيُفتح واتساب بمسودة جاهزة. راجعها وأرسلها من هناك؛ هذا النموذج لا يرسل استفسارك ولا يخزنه.",
+    footerTagline: "القوة بالجهد. والجميع مرحب بهم.", backTop: "العودة للأعلى",
+    menuOpen: "فتح القائمة", menuClose: "إغلاق القائمة",
+    errorWhatsApp: "لم يتم إعداد واتساب لهذا النادي بعد. لم يُرسل استفسارك.",
+    readyWhatsApp: "استفسارك جاهز في واتساب. راجعه وأرسله من هناك.",
+    blockedWhatsApp: "منع المتصفح فتح واتساب. ", openInquiry: "افتح استفسارك في واتساب",
+    introMessage: "مرحبًا {gym}، أود الاستفسار عن النادي.", planLabel: "العضوية",
+    messageLabelWhatsApp: "الرسالة"
+  }
+};
+
+let currentLanguage = "en";
+const languageButtons = document.querySelectorAll("[data-language]");
+const menuButton = document.querySelector(".menu-toggle");
+const contactInfoElement = document.querySelector("[data-gym-contact-info]");
+const englishContactInfo = contactInfoElement.textContent;
+
+function assignLineHeading(element, lines) {
+  if (!element || !lines) return;
+  const coloredLine = element.querySelector("span");
+  if (element.firstChild && element.firstChild.nodeType === Node.TEXT_NODE) {
+    element.firstChild.textContent = lines[0] || "";
+  }
+  if (coloredLine) {
+    coloredLine.textContent = lines[1] || "";
+  } else {
+    const lineBreak = [...element.childNodes].find((node) => node.nodeName === "BR");
+    const secondLine = lineBreak && lineBreak.nextSibling;
+    if (secondLine && secondLine.nodeType === Node.TEXT_NODE) secondLine.textContent = lines[1] || "";
+  }
+}
+
+function assignLeadingText(element, value) {
+  if (element && element.firstChild && element.firstChild.nodeType === Node.TEXT_NODE) {
+    element.firstChild.textContent = `${value} `;
+  }
+}
+
+function applyLanguage(language) {
+  currentLanguage = language === "ar" ? "ar" : "en";
+  const copy = PAGE_COPY[currentLanguage];
+  const isArabic = currentLanguage === "ar";
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir = isArabic ? "rtl" : "ltr";
+  document.querySelector(".skip-link").textContent = copy.skip;
+  document.querySelector(".site-nav").setAttribute("aria-label", copy.navigation);
+  document.querySelector(".language-switch").setAttribute("aria-label", copy.language);
+
+  const navLinks = document.querySelectorAll(".site-nav a");
+  [copy.training, copy.membership, copy.coaches, copy.contact].forEach((text, index) => {
+    navLinks[index].textContent = text;
+  });
+  assignLeadingText(document.querySelector(".nav-join"), copy.joinHouse);
+
+  const tagline = document.querySelector("[data-gym-tagline]");
+  if (tagline && tagline.lastChild) tagline.lastChild.textContent = ` ${copy.tagline}`;
+  assignLineHeading(document.querySelector("[data-gym-hero-title]"), copy.heroTitle);
+  document.querySelector("[data-gym-hero-description]").textContent = copy.heroDescription;
+  assignLeadingText(document.querySelector(".hero-actions .button"), copy.joinNow);
+  assignLeadingText(document.querySelector(".hero-actions .text-link"), copy.explore);
+  document.querySelector(".hero-caption span:last-child").textContent = copy.caption;
+  document.querySelector(".hero-scroll").setAttribute("aria-label", copy.scrollTraining);
+
+  const intro = document.querySelector(".intro-band");
+  intro.setAttribute("aria-label", copy.approachLabel);
+  assignLineHeading(intro.querySelector("p:first-child"), copy.approach);
+  intro.querySelector(".intro-detail").textContent = copy.approachDetail;
+
+  const sections = [
+    [".training-section", copy.trainingEyebrow, copy.trainingTitle, copy.trainingNote],
+    [".membership-section", copy.membershipEyebrow, copy.membershipTitle, copy.membershipNote],
+    [".coaches-section", copy.coachesEyebrow, copy.coachesTitle, copy.coachesNote],
+    [".contact-section", copy.contactEyebrow, copy.contactTitle, copy.contactIntro]
+  ];
+  sections.forEach(([selector, eyebrowText, titleLines, noteText]) => {
+    const section = document.querySelector(selector);
+    const eyebrow = section.querySelector(".section-heading .eyebrow, .contact-copy .eyebrow");
+    if (eyebrow && eyebrow.lastChild) eyebrow.lastChild.textContent = ` ${eyebrowText}`;
+    assignLineHeading(section.querySelector("h2"), titleLines);
+    const note = section.querySelector(".section-note");
+    if (note) note.textContent = noteText;
+  });
+
+  document.querySelectorAll("[data-training-program]").forEach((card, index) => {
+    const program = copy.programs[index];
+    card.querySelector("[data-program-category]").textContent = program[0];
+    assignLineHeading(card.querySelector("[data-program-name]"), [program[1], program[2]]);
+    card.querySelector("[data-program-description]").textContent = program[3];
+  });
+
+  document.querySelectorAll("[data-membership-plan]").forEach((card, index) => {
+    const indexLabel = card.querySelector("[data-plan-index]");
+    indexLabel.firstChild.textContent = copy.planIndex[index];
+    card.querySelector("[data-plan-name]").textContent = copy.planName[index];
+    card.querySelector("[data-plan-description]").textContent = copy.planDescription[index];
+    card.querySelector("[data-plan-features]").querySelectorAll("li").forEach((item, featureIndex) => {
+      item.textContent = copy.features[index][featureIndex];
+    });
+    const badge = card.querySelector("[data-plan-featured-label]");
+    if (badge) badge.textContent = copy.featured;
+    const button = card.querySelector("[data-plan-button]");
+    assignLeadingText(button, copy.askPlan);
+    button.dataset.plan = GYM_CONFIG.membershipPlans[index].contactValue;
+    const option = document.querySelectorAll("[data-plan-option]")[index];
+    if (option) option.textContent = copy.planName[index];
+  });
+  document.querySelector("#interest option[value='Not sure yet']").textContent = copy.notSure;
+  document.querySelector("[data-plan-footnote]").textContent = copy.planFootnote;
+
+  document.querySelectorAll(".coach-card").forEach((card, index) => {
+    card.querySelector("[data-coach-name]").textContent = copy.coachName[index];
+    card.querySelector("[data-coach-caption]").textContent = copy.coachCaption[index];
+    card.querySelector(".coach-number").textContent = `${copy.coachNumberPrefix} ${String(index + 1).padStart(2, "0")}`;
+  });
+  document.querySelector(".coach-note").textContent = copy.coachNote;
+  if (!contactInfoElement.querySelector("a")) {
+    contactInfoElement.textContent = isArabic ? copy.contactDetails : englishContactInfo;
+  }
+  document.querySelectorAll(".wordmark").forEach((wordmark) => {
+    wordmark.setAttribute("aria-label", isArabic
+      ? (wordmark.classList.contains("footer-wordmark") ? "IRON HOUSE GYM — العودة إلى الأعلى" : "IRON HOUSE GYM — الصفحة الرئيسية")
+      : (wordmark.classList.contains("footer-wordmark") ? `${GYM_CONFIG.gymName} back to top` : `${GYM_CONFIG.gymName} home`));
+  });
+
+  const form = document.querySelector(".contact-form");
+  const formLabels = [copy.nameLabel, copy.emailLabel, copy.interestLabel, copy.messageLabel];
+  ["name", "email", "interest", "inquiry-message"].forEach((id, index) => {
+    form.querySelector(`label[for='${id}']`).textContent = formLabels[index];
+  });
+  document.querySelector("#name").placeholder = copy.namePlaceholder;
+  document.querySelector("#inquiry-message").placeholder = copy.messagePlaceholder;
+  assignLeadingText(document.querySelector(".form-submit"), copy.submit);
+  document.querySelector(".form-note").textContent = copy.formNote;
+  document.querySelector("[data-gym-footer-tagline]").textContent = copy.footerTagline;
+  assignLeadingText(document.querySelector(".back-to-top"), copy.backTop);
+
+  document.querySelectorAll("[data-program-image]").forEach((image, index) => {
+    image.alt = isArabic
+      ? ["معدات تمارين القوة على أرضية النادي", "متدرب يؤدي تمرين حركة", "مدرب يوجه متدربًا أثناء رفع الأثقال"][index]
+      : GYM_CONFIG.trainingPrograms[index].altText;
+  });
+  const coachAlts = isArabic
+    ? ["مدرب قوة في النادي", "مدرب لياقة يقود جلسة تدريب", "مدرب شخصي يستعد لجلسة تدريب"]
+    : GYM_CONFIG.coaches.map((coach) => coach.altText);
+  document.querySelectorAll("[data-coach-image]").forEach((image, index) => { image.alt = coachAlts[index]; });
+
+  menuButton.setAttribute("aria-label", menuButton.getAttribute("aria-expanded") === "true" ? copy.menuClose : copy.menuOpen);
+  languageButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.language === currentLanguage)));
+}
+
+languageButtons.forEach((button) => {
+  button.addEventListener("click", () => applyLanguage(button.dataset.language));
+});
+applyLanguage("en");
+
 function getWhatsAppNumber() {
   const configuredValue = GYM_CONFIG.whatsApp.trim();
   if (!configuredValue) return "";
@@ -376,7 +629,6 @@ function createWhatsAppUrl(message) {
   return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 }
 
-const menuButton = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector(".site-nav");
 const contactForm = document.querySelector("#contact-form");
 const interestSelect = document.querySelector("#interest");
@@ -384,14 +636,14 @@ const formStatus = document.querySelector("#form-status");
 
 function closeMenu() {
   menuButton.setAttribute("aria-expanded", "false");
-  menuButton.setAttribute("aria-label", "Open navigation");
+  menuButton.setAttribute("aria-label", PAGE_COPY[currentLanguage].menuOpen);
   siteNav.classList.remove("is-open");
 }
 
 menuButton.addEventListener("click", () => {
   const isOpen = menuButton.getAttribute("aria-expanded") === "true";
   menuButton.setAttribute("aria-expanded", String(!isOpen));
-  menuButton.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
+  menuButton.setAttribute("aria-label", isOpen ? PAGE_COPY[currentLanguage].menuOpen : PAGE_COPY[currentLanguage].menuClose);
   siteNav.classList.toggle("is-open", !isOpen);
 });
 
@@ -424,35 +676,36 @@ contactForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const selectedPlan = interestSelect.options[interestSelect.selectedIndex];
+  const copy = PAGE_COPY[currentLanguage];
   const message = [
-    `Hello ${GYM_CONFIG.gymName}, I would like to make an inquiry.`,
+    copy.introMessage.replace("{gym}", GYM_CONFIG.gymName),
     "",
-    `Name: ${document.querySelector("#name").value.trim()}`,
-    `Email: ${document.querySelector("#email").value.trim()}`,
-    `Membership plan: ${selectedPlan ? selectedPlan.textContent : interestSelect.value}`,
+    `${copy.nameLabel}: ${document.querySelector("#name").value.trim()}`,
+    `${copy.emailLabel}: ${document.querySelector("#email").value.trim()}`,
+    `${copy.planLabel}: ${selectedPlan ? selectedPlan.textContent : interestSelect.value}`,
     "",
-    `Message: ${document.querySelector("#inquiry-message").value.trim()}`
+    `${copy.messageLabelWhatsApp}: ${document.querySelector("#inquiry-message").value.trim()}`
   ].join("\n");
   const whatsAppUrl = createWhatsAppUrl(message);
 
   if (!whatsAppUrl) {
-    formStatus.textContent = "WhatsApp is not configured for this gym yet. Your inquiry was not sent.";
+    formStatus.textContent = copy.errorWhatsApp;
     return;
   }
 
   const whatsAppWindow = window.open(whatsAppUrl, "_blank");
   if (whatsAppWindow) {
     whatsAppWindow.opener = null;
-    formStatus.textContent = "Your inquiry is ready in WhatsApp. Review and send it there.";
+    formStatus.textContent = copy.readyWhatsApp;
     return;
   }
 
-  formStatus.replaceChildren(document.createTextNode("Your browser blocked the WhatsApp window. "));
+  formStatus.replaceChildren(document.createTextNode(copy.blockedWhatsApp));
   const fallbackLink = document.createElement("a");
   fallbackLink.href = whatsAppUrl;
   fallbackLink.target = "_blank";
   fallbackLink.rel = "noopener noreferrer";
-  fallbackLink.textContent = "Open your WhatsApp inquiry";
+  fallbackLink.textContent = copy.openInquiry;
   formStatus.append(fallbackLink);
 });
 
