@@ -462,6 +462,10 @@ function initScrollUI() {
   const header = document.querySelector(".site-header");
   const hero = document.querySelector(".hero");
   const heroImage = document.querySelector(".hero-image");
+  const heroContent = document.querySelector(".hero-content");
+  const contactSection = document.querySelector(".contact-section");
+  const contactImage = document.querySelector(".contact-image");
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const progressTrack = document.createElement("div");
   const progressFill = document.createElement("span");
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -482,9 +486,20 @@ function initScrollUI() {
     progressFill.style.transform = `scaleX(${progress})`;
     header.classList.toggle("is-scrolled", window.scrollY > 24);
 
-    if (!prefersReducedMotion && hero && heroImage) {
+    if (!prefersReducedMotion && finePointer && hero && heroImage) {
       const heroProgress = Math.min(1, Math.max(0, window.scrollY / hero.offsetHeight));
-      heroImage.style.setProperty("--hero-parallax-offset", `${-heroProgress * 20}px`);
+      heroImage.style.setProperty("--hero-parallax-offset", `${heroProgress * 90}px`);
+      if (heroContent) {
+        heroContent.style.setProperty("--hero-content-shift", `${-heroProgress * 40}px`);
+        heroContent.style.setProperty("--hero-content-fade", String(1 - heroProgress * 0.85));
+      }
+      if (contactSection && contactImage) {
+        const box = contactSection.getBoundingClientRect();
+        if (box.bottom > 0 && box.top < window.innerHeight) {
+          const offset = (box.top + box.height / 2 - window.innerHeight / 2) / window.innerHeight;
+          contactImage.style.setProperty("--contact-parallax", `${offset * -40}px`);
+        }
+      }
     }
   };
 
@@ -507,7 +522,7 @@ function initScrollReveals() {
   if (!("IntersectionObserver" in window)) return;
 
   const revealTargets = document.querySelectorAll(
-    ".intro-band, .section-heading, .service-card, .plan-card, .coach-card, .contact-copy, .contact-form"
+    ".intro-band, .section-heading .eyebrow, .section-heading h2, .section-note, .service-card, .plan-card, .coach-card, .contact-copy, .contact-form"
   );
   const cardSelector = ".service-card, .plan-card, .coach-card";
 
@@ -518,6 +533,8 @@ function initScrollReveals() {
       );
       element.style.setProperty("--reveal-delay", `${siblings.indexOf(element) * 85}ms`);
     }
+    if (element.matches(".section-heading h2")) element.style.setProperty("--reveal-delay", "90ms");
+    if (element.matches(".section-note")) element.style.setProperty("--reveal-delay", "180ms");
     element.classList.add("scroll-reveal");
   });
 
@@ -527,6 +544,7 @@ function initScrollReveals() {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
+        setTimeout(() => entry.target.classList.add("is-settled"), 1500);
         observer.unobserve(entry.target);
       }
     });
@@ -537,40 +555,53 @@ function initScrollReveals() {
 
 initScrollReveals();
 
-async function testSupabaseConnection() {
-  const status = document.createElement("p");
-  status.style.cssText =
-    "position:fixed;bottom:16px;right:16px;z-index:9999;background:#171814;color:white;padding:12px 16px;border-radius:8px;font:14px Arial";
-  status.textContent = "Checking Supabase connection...";
-  document.body.appendChild(status);
+function initPremiumUI() {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-  try {
-    const { data, error: sessionError } = await supabaseClient.auth.getSession();
-
-    if (sessionError) {
-      throw sessionError;
-    }
-
-    if (!data.session) {
-      status.textContent = "Sign in to check gym access.";
-      return;
-    }
-
-    const { error } = await supabaseClient
-      .from("gyms")
-      .select("id")
-      .limit(1);
-
-    if (error) {
-      console.error("Supabase test:", error);
-      status.textContent = "Connected to Supabase, but the database check needs attention.";
-    } else {
-      status.textContent = "Supabase connection successful!";
-    }
-  } catch (error) {
-    console.error("Connection test:", error);
-    status.textContent = "Connection failed. Check the browser console.";
+  // Active section underline in the nav
+  const links = [...document.querySelectorAll('.site-nav a[href^="#"]:not(.nav-join)')];
+  if ("IntersectionObserver" in window && links.length) {
+    const map = new Map(links.map((link) => [link.getAttribute("href").slice(1), link]));
+    const margin = { rootMargin: "-45% 0px -50% 0px" };
+    const spy = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      const link = map.get(entry.target.id);
+      if (link && entry.isIntersecting) links.forEach((item) => item.classList.toggle("is-active", item === link));
+    }), margin);
+    map.forEach((_, id) => { const section = document.getElementById(id); if (section) spy.observe(section); });
+    const hero = document.querySelector(".hero");
+    if (hero) new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) links.forEach((item) => item.classList.remove("is-active"));
+    }, margin).observe(hero);
   }
+
+  // Cursor glow and card spotlight (mouse only)
+  if (reduced || !finePointer) return;
+  const glow = document.createElement("div");
+  glow.className = "cursor-glow";
+  glow.setAttribute("aria-hidden", "true");
+  document.body.append(glow);
+  let targetX = 0, targetY = 0, x = 0, y = 0, frame = 0;
+  const follow = () => {
+    x += (targetX - x) * 0.12;
+    y += (targetY - y) * 0.12;
+    glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    frame = Math.abs(targetX - x) + Math.abs(targetY - y) > 0.5 ? requestAnimationFrame(follow) : 0;
+  };
+  window.addEventListener("pointermove", (event) => {
+    if (event.pointerType !== "mouse") return;
+    targetX = event.clientX;
+    targetY = event.clientY;
+    if (!glow.classList.contains("is-active")) { x = targetX; y = targetY; glow.classList.add("is-active"); }
+    if (!frame) frame = requestAnimationFrame(follow);
+    const card = event.target.closest && event.target.closest(".service-card, .plan-card");
+    if (card) {
+      const box = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${event.clientX - box.left}px`);
+      card.style.setProperty("--my", `${event.clientY - box.top}px`);
+    }
+  }, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => glow.classList.remove("is-active"));
 }
 
-testSupabaseConnection();
+initPremiumUI();
