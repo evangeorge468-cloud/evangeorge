@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10110f">
+  <title>Sign in | IRON HOUSE GYM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js" defer></script>
+  <script src="auth.js" defer></script>
+</head>
+<body data-page="login">
+  <main class="auth-shell">
+    <a class="auth-brand" href="index.html" aria-label="IRON HOUSE GYM home">
+      <span class="brand-mark" aria-hidden="true">IH</span>
+      <span>IRON HOUSE <b>GYM</b></span>
+    </a>
+
+    <section class="auth-card" aria-labelledby="login-title">
+      <p class="eyebrow">MEMBER MANAGEMENT</p>
+      <h1 id="login-title">WELCOME <span>BACK.</span></h1>
+      <p class="auth-intro">Sign in with your gym account to continue.</p>
+
+      <form id="login-form">
+        <label for="email">EMAIL ADDRESS</label>
+        <input id="email" name="email" type="email" autocomplete="username" required>
+
+        <label for="password">PASSWORD</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+
+        <button class="auth-button" id="login-button" type="submit">SIGN IN <span aria-hidden="true">↗</span></button>
+        <p class="form-status" id="login-status" role="alert" aria-live="polite"></p>
+      </form>
+
+      <a class="back-link" href="index.html">← Back to the public website</a>
+    </section>
+    <p class="auth-footer">© <span id="current-year"></span> IRON HOUSE GYM</p>
+  </main>
+</body>
+</html>

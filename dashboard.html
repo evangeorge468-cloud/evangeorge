@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10110f">
+  <title>Dashboard | IRON HOUSE GYM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="whatsapp.js" defer></script>
+  <script src="dashboard.js" defer></script>
+</head>
+<body data-page="dashboard">
+  <p class="form-status page-status" id="dashboard-status" role="status" aria-live="polite">Checking your session…</p>
+  <div class="app" id="dashboard-content" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html" aria-label="IRON HOUSE GYM home"><span class="brand-mark">IH</span><span>IRON HOUSE <b>GYM</b><small data-i18n="manager">GYM MANAGEMENT</small></span></a>
+      <p class="nav-caption" data-i18n="workspace">WORKSPACE</p>
+      <nav class="main-nav" aria-label="Dashboard navigation">
+        <button class="nav-item active" data-view="overview"><span>◫</span><span data-i18n="dashboard">Dashboard</span></button>
+        <button class="nav-item" data-view="members"><span>♙</span><span data-i18n="members">Members</span><i id="member-nav-count">0</i></button>
+        <button class="nav-item" data-view="plans"><span>▤</span><span data-i18n="plans">Memberships</span></button>
+        <button class="nav-item" data-view="payments"><span>↗</span><span data-i18n="payments">Payments</span></button>
+        <button class="nav-item" data-view="checkins"><span>✓</span><span data-i18n="checkin">Check-in</span></button>
+        <button class="nav-item" data-view="reports"><span>▥</span><span data-i18n="reports">Reports</span></button>
+        <button class="nav-item" data-view="settings"><span>⚙</span><span data-i18n="settings">Settings</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="demo-badge"><span></span><span data-i18n="demoMode">DEMO MODE · LOCAL DATA</span></div><button class="logout-button" id="logout-button" type="button"><span>↪</span><span data-i18n="logout">Log out</span></button><p class="form-status" id="logout-status" role="alert" aria-live="polite"></p></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><button class="icon-button menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button><div class="breadcrumbs"><span data-i18n="manager">GYM MANAGEMENT</span><b>/</b><strong id="view-crumb">Dashboard</strong></div><div class="top-actions"><span class="today-label" id="today-label"></span><button class="language-button" id="language-toggle" type="button">العربية</button><span class="avatar">IH</span></div></header>
+      <div class="content" id="view-root" tabindex="-1"></div>
+    </main>
+  </div>
+  <dialog id="app-modal" class="app-modal"><div class="modal-shell"><button class="modal-close" type="button" aria-label="Close" data-action="close">×</button><div id="modal-content"></div></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

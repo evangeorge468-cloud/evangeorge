@@ -1,6 +1,3 @@
-// TEMPORARY TEST NUMBER: replace with the gym's official WhatsApp number later.
-const WHATSAPP_NUMBER = "201207023297";
-
 // CLIENT CONFIG: customize the gym name, colors, text, and contact information here.
 // Name: gymName and shortName. Colors: primaryColor and secondaryColor.
 // Text: tagline, heroTitle, heroDescription, and footerTagline.
@@ -620,35 +617,6 @@ languageButtons.forEach((button) => {
   button.addEventListener("click", () => applyLanguage(button.dataset.language));
 });
 applyLanguage("en");
-
-function createWhatsAppUrl(message) {
-  if (!/^\d{8,15}$/.test(WHATSAPP_NUMBER)) return "";
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-}
-
-function openWhatsAppMessage(message, statusElement = formStatus, copy = PAGE_COPY[currentLanguage]) {
-  const whatsAppUrl = createWhatsAppUrl(message);
-  if (!whatsAppUrl) {
-    statusElement.textContent = copy.errorWhatsApp;
-    return false;
-  }
-
-  const whatsAppWindow = window.open(whatsAppUrl, "_blank");
-  if (whatsAppWindow) {
-    whatsAppWindow.opener = null;
-    statusElement.textContent = copy.readyWhatsApp;
-    return true;
-  }
-
-  statusElement.replaceChildren(document.createTextNode(copy.blockedWhatsApp));
-  const fallbackLink = document.createElement("a");
-  fallbackLink.href = whatsAppUrl;
-  fallbackLink.target = "_blank";
-  fallbackLink.rel = "noopener noreferrer";
-  fallbackLink.textContent = copy.openInquiry;
-  statusElement.append(fallbackLink);
-  return false;
-}
 
 const siteNav = document.querySelector(".site-nav");
 const contactForm = document.querySelector("#contact-form");
