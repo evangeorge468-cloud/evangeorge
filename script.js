@@ -1,7 +1,10 @@
+// TEMPORARY TEST NUMBER: replace with the gym's official WhatsApp number later.
+const WHATSAPP_NUMBER = "201207023297";
+
 // CLIENT CONFIG: customize the gym name, colors, text, and contact information here.
 // Name: gymName and shortName. Colors: primaryColor and secondaryColor.
 // Text: tagline, heroTitle, heroDescription, and footerTagline.
-// Contact: phone, whatsApp, email, address, and instagram. Leave unused fields empty.
+// Contact: phone, email, address, and instagram. Leave unused fields empty.
 const GYM_CONFIG = {
   gymName: "IRON HOUSE GYM",
   shortName: "IH",
@@ -9,7 +12,6 @@ const GYM_CONFIG = {
   heroTitle: "BUILT BY\nEFFORT.",
   heroDescription: "A training space for showing up, getting stronger, and doing it again. No shortcuts. Just good work.",
   phone: "",
-  whatsApp: "",
   email: "",
   address: "",
   instagram: "",
@@ -341,6 +343,14 @@ function applyGymConfig() {
         link.target = "_blank";
         link.rel = "noopener noreferrer";
       }
+      if (item.label === "WhatsApp") {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          const copy = PAGE_COPY[currentLanguage];
+          const message = copy.generalWhatsAppMessage.replace("{gym}", GYM_CONFIG.gymName);
+          openWhatsAppMessage(message, formStatus, copy);
+        });
+      }
       contactInfo.append(link);
     });
   }
@@ -396,10 +406,15 @@ const PAGE_COPY = {
     formNote: "WhatsApp opens with a pre-filled draft. Review and send it there; this form does not send or store your inquiry.",
     footerTagline: "BUILT BY EFFORT. OPEN TO EVERYONE.", backTop: "BACK TO TOP",
     menuOpen: "Open navigation", menuClose: "Close navigation",
-    errorWhatsApp: "WhatsApp is not configured for this gym yet. Your inquiry was not sent.",
-    readyWhatsApp: "Your inquiry is ready in WhatsApp. Review and send it there.",
-    blockedWhatsApp: "Your browser blocked the WhatsApp window. ", openInquiry: "Open your WhatsApp inquiry",
-    introMessage: "Hello {gym}, I would like to make an inquiry.", planLabel: "Membership plan",
+    errorWhatsApp: "WhatsApp is unavailable because its number is missing or invalid. No message was sent.",
+    readyWhatsApp: "WhatsApp opened with your draft. Review and send it there; it has not been sent yet.",
+    blockedWhatsApp: "Your browser blocked the WhatsApp window. ", openInquiry: "Open your WhatsApp draft",
+    introMessage: "Hi {gym},", nameIntro: "My name is {name}.",
+    planInterestMessage: "I'm interested in the {plan} membership.",
+    planUnknownMessage: "I'm interested in learning more about your memberships.",
+    planButtonMessage: "Hi {gym}, I'm interested in the {plan} membership. I'd like to know more.",
+    generalWhatsAppMessage: "Hi {gym}, I'm interested in your memberships. I'd like to know more.",
+    planLabel: "Membership plan",
     messageLabelWhatsApp: "Message"
   },
   ar: {
@@ -449,10 +464,15 @@ const PAGE_COPY = {
     formNote: "سيُفتح واتساب بمسودة جاهزة. راجعها وأرسلها من هناك؛ هذا النموذج لا يرسل استفسارك ولا يخزنه.",
     footerTagline: "القوة بالجهد. والجميع مرحب بهم.", backTop: "العودة للأعلى",
     menuOpen: "فتح القائمة", menuClose: "إغلاق القائمة",
-    errorWhatsApp: "لم يتم إعداد واتساب لهذا النادي بعد. لم يُرسل استفسارك.",
-    readyWhatsApp: "استفسارك جاهز في واتساب. راجعه وأرسله من هناك.",
-    blockedWhatsApp: "منع المتصفح فتح واتساب. ", openInquiry: "افتح استفسارك في واتساب",
-    introMessage: "مرحبًا {gym}، أود الاستفسار عن النادي.", planLabel: "العضوية",
+    errorWhatsApp: "واتساب غير متاح لأن رقمه غير موجود أو غير صالح. لم تُرسل أي رسالة.",
+    readyWhatsApp: "فُتح واتساب بالمسودة. راجعها وأرسلها من هناك؛ لم تُرسل بعد.",
+    blockedWhatsApp: "منع المتصفح فتح واتساب. ", openInquiry: "افتح مسودة واتساب",
+    introMessage: "مرحبًا {gym}،", nameIntro: "اسمي {name}.",
+    planInterestMessage: "أنا مهتم باشتراك {plan}.",
+    planUnknownMessage: "أرغب في معرفة المزيد عن العضويات.",
+    planButtonMessage: "مرحبًا {gym}، أنا مهتم باشتراك {plan}. أود معرفة المزيد.",
+    generalWhatsAppMessage: "مرحبًا {gym}، أنا مهتم بعضويات النادي. أود معرفة المزيد.",
+    planLabel: "العضوية",
     messageLabelWhatsApp: "الرسالة"
   }
 };
@@ -601,32 +621,33 @@ languageButtons.forEach((button) => {
 });
 applyLanguage("en");
 
-function getWhatsAppNumber() {
-  const configuredValue = GYM_CONFIG.whatsApp.trim();
-  if (!configuredValue) return "";
-
-  if (/^https?:\/\//i.test(configuredValue)) {
-    try {
-      const configuredUrl = new URL(configuredValue);
-      if (configuredUrl.hostname === "wa.me") {
-        return (configuredUrl.pathname.split("/").filter(Boolean)[0] || "").replace(/\D/g, "");
-      }
-      if (configuredUrl.hostname === "api.whatsapp.com") {
-        return (configuredUrl.searchParams.get("phone") || "").replace(/\D/g, "");
-      }
-      return "";
-    } catch {
-      return "";
-    }
-  }
-
-  return configuredValue.replace(/\D/g, "");
+function createWhatsAppUrl(message) {
+  if (!/^\d{8,15}$/.test(WHATSAPP_NUMBER)) return "";
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-function createWhatsAppUrl(message) {
-  const phoneNumber = getWhatsAppNumber();
-  if (!/^\d{8,15}$/.test(phoneNumber)) return "";
-  return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+function openWhatsAppMessage(message, statusElement = formStatus, copy = PAGE_COPY[currentLanguage]) {
+  const whatsAppUrl = createWhatsAppUrl(message);
+  if (!whatsAppUrl) {
+    statusElement.textContent = copy.errorWhatsApp;
+    return false;
+  }
+
+  const whatsAppWindow = window.open(whatsAppUrl, "_blank");
+  if (whatsAppWindow) {
+    whatsAppWindow.opener = null;
+    statusElement.textContent = copy.readyWhatsApp;
+    return true;
+  }
+
+  statusElement.replaceChildren(document.createTextNode(copy.blockedWhatsApp));
+  const fallbackLink = document.createElement("a");
+  fallbackLink.href = whatsAppUrl;
+  fallbackLink.target = "_blank";
+  fallbackLink.rel = "noopener noreferrer";
+  fallbackLink.textContent = copy.openInquiry;
+  statusElement.append(fallbackLink);
+  return false;
 }
 
 const siteNav = document.querySelector(".site-nav");
@@ -668,6 +689,12 @@ document.addEventListener("click", (event) => {
 document.querySelectorAll(".choose-plan").forEach((button) => {
   button.addEventListener("click", () => {
     interestSelect.value = button.dataset.plan;
+    const selectedPlan = interestSelect.options[interestSelect.selectedIndex];
+    const copy = PAGE_COPY[currentLanguage];
+    const message = copy.planButtonMessage
+      .replace("{gym}", GYM_CONFIG.gymName)
+      .replace("{plan}", selectedPlan ? selectedPlan.textContent.trim() : button.dataset.plan);
+    openWhatsAppMessage(message, formStatus, copy);
     window.location.hash = "contact-form";
   });
 });
@@ -677,36 +704,19 @@ contactForm.addEventListener("submit", (event) => {
 
   const selectedPlan = interestSelect.options[interestSelect.selectedIndex];
   const copy = PAGE_COPY[currentLanguage];
+  const planValue = interestSelect.value;
+  const planMessage = planValue !== "Not sure yet"
+    ? copy.planInterestMessage.replace("{plan}", selectedPlan ? selectedPlan.textContent.trim() : planValue)
+    : copy.planUnknownMessage;
   const message = [
     copy.introMessage.replace("{gym}", GYM_CONFIG.gymName),
     "",
-    `${copy.nameLabel}: ${document.querySelector("#name").value.trim()}`,
+    copy.nameIntro.replace("{name}", document.querySelector("#name").value.trim()),
     `${copy.emailLabel}: ${document.querySelector("#email").value.trim()}`,
-    `${copy.planLabel}: ${selectedPlan ? selectedPlan.textContent : interestSelect.value}`,
-    "",
+    planMessage,
     `${copy.messageLabelWhatsApp}: ${document.querySelector("#inquiry-message").value.trim()}`
   ].join("\n");
-  const whatsAppUrl = createWhatsAppUrl(message);
-
-  if (!whatsAppUrl) {
-    formStatus.textContent = copy.errorWhatsApp;
-    return;
-  }
-
-  const whatsAppWindow = window.open(whatsAppUrl, "_blank");
-  if (whatsAppWindow) {
-    whatsAppWindow.opener = null;
-    formStatus.textContent = copy.readyWhatsApp;
-    return;
-  }
-
-  formStatus.replaceChildren(document.createTextNode(copy.blockedWhatsApp));
-  const fallbackLink = document.createElement("a");
-  fallbackLink.href = whatsAppUrl;
-  fallbackLink.target = "_blank";
-  fallbackLink.rel = "noopener noreferrer";
-  fallbackLink.textContent = copy.openInquiry;
-  formStatus.append(fallbackLink);
+  openWhatsAppMessage(message, formStatus, copy);
 });
 
 document.querySelector("#current-year").textContent = new Date().getFullYear();
