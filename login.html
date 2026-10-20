@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,28 +15,59 @@
 </head>
 <body data-page="login">
   <main class="auth-shell">
+    <div class="auth-language-switch" role="group" aria-label="Language">
+      <button type="button" data-auth-language="en" aria-pressed="true" lang="en">EN</button>
+      <button type="button" data-auth-language="ar" aria-pressed="false" lang="ar">AR</button>
+    </div>
     <a class="auth-brand" href="index.html" aria-label="IRON HOUSE GYM home">
       <span class="brand-mark" aria-hidden="true">IH</span>
       <span>IRON HOUSE <b>GYM</b></span>
     </a>
 
-    <section class="auth-card" aria-labelledby="login-title">
-      <p class="eyebrow">MEMBER MANAGEMENT</p>
-      <h1 id="login-title">WELCOME <span>BACK.</span></h1>
-      <p class="auth-intro">Sign in with your gym account to continue.</p>
+    <section class="auth-card" id="login-panel" aria-labelledby="login-title">
+      <p class="eyebrow" data-i18n="eyebrow">MEMBER MANAGEMENT</p>
+      <h1 id="login-title"><span data-i18n="welcome">WELCOME</span> <span data-i18n="back">BACK.</span></h1>
+      <p class="auth-intro" data-i18n="loginIntro">Sign in with your gym account to continue.</p>
 
       <form id="login-form">
-        <label for="email">EMAIL ADDRESS</label>
+        <label for="email" data-i18n="emailLabel">EMAIL ADDRESS</label>
         <input id="email" name="email" type="email" autocomplete="username" required>
 
-        <label for="password">PASSWORD</label>
+        <label for="password" data-i18n="passwordLabel">PASSWORD</label>
         <input id="password" name="password" type="password" autocomplete="current-password" required>
 
-        <button class="auth-button" id="login-button" type="submit">SIGN IN <span aria-hidden="true">↗</span></button>
+        <button class="auth-button" id="login-button" type="submit"><span data-i18n="signIn">SIGN IN</span><span aria-hidden="true">↗</span></button>
         <p class="form-status" id="login-status" role="alert" aria-live="polite"></p>
       </form>
 
-      <a class="back-link" href="index.html">← Back to the public website</a>
+      <button class="auth-text-button" id="show-signup" type="button" data-i18n="createAccount">Create account</button>
+      <a class="back-link" href="index.html" data-i18n="backToSite">← Back to the public website</a>
+    </section>
+
+    <section class="auth-card" id="signup-panel" aria-labelledby="signup-title" hidden>
+      <p class="eyebrow" data-i18n="signupEyebrow">NEW GYM ACCOUNT</p>
+      <h1 id="signup-title"><span data-i18n="create">CREATE</span> <span data-i18n="account">ACCOUNT.</span></h1>
+      <p class="auth-intro" data-i18n="signupIntro">Create your gym account to get started.</p>
+
+      <form id="signup-form">
+        <label for="signup-email" data-i18n="emailLabel">EMAIL ADDRESS</label>
+        <input id="signup-email" name="email" type="email" autocomplete="email" required>
+
+        <label for="signup-password" data-i18n="passwordLabel">PASSWORD</label>
+        <input id="signup-password" name="password" type="password" autocomplete="new-password" required>
+
+        <label for="confirm-password" data-i18n="confirmPasswordLabel">CONFIRM PASSWORD</label>
+        <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required>
+
+        <label for="gym-name" data-i18n="gymNameLabel">GYM NAME</label>
+        <input id="gym-name" name="gymName" type="text" autocomplete="organization" maxlength="120" required>
+
+        <button class="auth-button" id="signup-button" type="submit"><span data-i18n="createAccount">CREATE ACCOUNT</span><span aria-hidden="true">↗</span></button>
+        <p class="form-status" id="signup-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <button class="auth-text-button" id="show-login" type="button" data-i18n="returnToLogin">Already have an account? Sign in</button>
+      <a class="back-link" href="index.html" data-i18n="backToSite">← Back to the public website</a>
     </section>
     <p class="auth-footer">© <span id="current-year"></span> IRON HOUSE GYM</p>
   </main>

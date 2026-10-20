@@ -22,12 +22,35 @@ body {
 }
 
 .auth-shell {
+  position: relative;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 38px 20px 24px;
+}
+
+.auth-language-switch {
+  position: absolute;
+  top: 18px;
+  inset-inline-end: 20px;
+  display: inline-flex;
+  border: 1px solid var(--auth-line);
+}
+
+.auth-language-switch button {
+  padding: 7px 9px;
+  border: 0;
+  background: transparent;
+  color: var(--auth-muted);
+  cursor: pointer;
+  font: 700 10px "DM Sans", sans-serif;
+}
+
+.auth-language-switch button[aria-pressed="true"] {
+  background: var(--auth-accent);
+  color: var(--auth-bg);
 }
 
 .auth-brand {
@@ -87,9 +110,9 @@ body {
   line-height: 1.7;
 }
 
-#login-form { display: grid; gap: 10px; }
+#login-form, #signup-form { display: grid; gap: 10px; }
 
-#login-form label {
+#login-form label, #signup-form label {
   margin-top: 8px;
   color: var(--auth-accent);
   font-size: 10px;
@@ -97,7 +120,7 @@ body {
   letter-spacing: 1px;
 }
 
-#login-form input {
+#login-form input, #signup-form input {
   width: 100%;
   min-height: 48px;
   padding: 0 12px;
@@ -109,7 +132,7 @@ body {
   font: inherit;
 }
 
-#login-form input:focus { border-color: var(--auth-accent); }
+#login-form input:focus, #signup-form input:focus { border-color: var(--auth-accent); }
 
 .auth-button {
   display: flex;
@@ -136,6 +159,28 @@ body {
   font-size: 12px;
   line-height: 1.5;
 }
+
+.form-status[data-kind="success"] { color: #a6e3a1; }
+
+.auth-text-button {
+  display: block;
+  margin-top: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--auth-paper);
+  cursor: pointer;
+  font: 600 11px "DM Sans", sans-serif;
+  text-align: start;
+}
+
+.auth-text-button:hover { color: var(--auth-accent); }
+
+html[dir="rtl"] .auth-card,
+html[dir="rtl"] .auth-card input,
+html[dir="rtl"] .auth-card button { text-align: right; }
+
+html[dir="rtl"] .auth-button { flex-direction: row-reverse; }
 
 .page-status { color: var(--auth-muted); }
 .page-status:empty { display: none; }
