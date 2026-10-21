@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10110f">
+  <title>Temporary sign-in diagnostics | IRON HOUSE GYM</title>
+  <link rel="stylesheet" href="auth.css">
+  <style>
+    .diagnostic-list { display: grid; gap: 14px; margin: 20px 0; }
+    .diagnostic-item { padding: 14px; border: 1px solid var(--auth-line); }
+    .diagnostic-item h2 { margin: 0 0 10px; color: var(--auth-accent); font-size: 14px; }
+    .diagnostic-item p { margin: 5px 0; color: var(--auth-muted); font-size: 12px; }
+    .diagnostic-item strong { color: var(--auth-paper); }
+    .diagnostic-note { color: var(--auth-muted); font-size: 11px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <main class="auth-shell">
+    <a class="auth-brand" href="index.html" aria-label="IRON HOUSE GYM home">
+      <span class="brand-mark" aria-hidden="true">IH</span>
+      <span>IRON HOUSE <b>GYM</b></span>
+    </a>
+    <section class="auth-card" aria-labelledby="diagnostics-title">
+      <p class="eyebrow">TEMPORARY · IPHONE SIGN-IN</p>
+      <h1 id="diagnostics-title">SESSION <span>DIAGNOSTICS.</span></h1>
+      <p class="auth-intro">Only non-sensitive session and browser-storage checks are shown.</p>
+      <div class="diagnostic-list" id="diagnostic-list" aria-live="polite"></div>
+      <p class="diagnostic-note">These readings are limited to this browser tab. Reopen this page in the same tab after the login attempt.</p>
+      <a class="back-link" href="login.html">← Return to sign in</a>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const storageKey = "iron_house_auth_diagnostics_v1";
+      const definitions = [
+        {
+          event: "login.session-read-after-sign-in",
+          title: "Login: session read after sign-in",
+          fields: ["hasReturnedSession", "hasStoredSession", "sameUser"]
+        },
+        {
+          event: "dashboard.initialized",
+          title: "Dashboard: storage at initialization",
+          fields: ["localStorageWritable", "supabaseAuthKeyCount"]
+        },
+        {
+          event: "dashboard.session-check",
+          title: "Dashboard: session check",
+          fields: ["hasSession"]
+        }
+      ];
+      const list = document.querySelector("#diagnostic-list");
+      let snapshots = {};
+
+      try {
+        snapshots = JSON.parse(sessionStorage.getItem(storageKey) || "{}");
+      } catch {
+        snapshots = null;
+      }
+
+      definitions.forEach(({ event, title, fields }) => {
+        const item = document.createElement("section");
+        item.className = "diagnostic-item";
+        const heading = document.createElement("h2");
+        heading.textContent = title;
+        item.append(heading);
+
+        fields.forEach((field) => {
+          const row = document.createElement("p");
+          const label = document.createElement("strong");
+          label.textContent = `${field}: `;
+          const value = snapshots && snapshots[event] && field in snapshots[event]
+            ? String(snapshots[event][field])
+            : "Not recorded in this tab";
+          row.append(label, document.createTextNode(value));
+          item.append(row);
+        });
+
+        list.append(item);
+      });
+    })();
+  </script>
+</body>
+</html>
