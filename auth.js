@@ -55,6 +55,7 @@
   };
   let currentAuthLanguage = "en";
   let authStorageDiagnostic = null;
+  const authDiagnosticStorageKey = "iron_house_auth_diagnostics_v1";
 
   // TEMPORARY: logs session/storage state only; never logs credentials or tokens.
   function getAuthStorageDiagnostic() {
@@ -75,6 +76,59 @@
   }
 
   function logAuthDiagnostic(event, details = {}) {
+    if (event === "login.sign-in-result") {
+      try {
+        sessionStorage.removeItem(authDiagnosticStorageKey);
+      } catch {
+        // A stale snapshot is preferable to interrupting the sign-in flow.
+      }
+    }
+
+    const diagnosticFieldMap = {
+      "login.session-read-after-sign-in": ["hasReturnedSession", "hasStoredSession", "sameUser"],
+      "dashboard.initialized": ["localStorageWritable", "supabaseAuthKeyCount"],
+      "dashboard.session-check": ["hasSession"]
+    };
+    const diagnosticFields = diagnosticFieldMap[event];
+
+    if (diagnosticFields) {
+      try {
+        const existingDiagnostics = JSON.parse(sessionStorage.getItem(authDiagnosticStorageKey) || "{}");
+        const savedDiagnostics = {};
+        Object.entries(diagnosticFieldMap).forEach(([savedEvent, allowedFields]) => {
+          const existingSnapshot = existingDiagnostics?.[savedEvent];
+          if (!existingSnapshot || typeof existingSnapshot !== "object" || Array.isArray(existingSnapshot)) return;
+          const safeSnapshot = {};
+          allowedFields.forEach((field) => {
+            const value = existingSnapshot[field];
+            if (typeof value === "boolean" ||
+                (field === "supabaseAuthKeyCount" && Number.isInteger(value) && value >= 0) ||
+                (field === "supabaseAuthKeyCount" && value === null)) {
+              safeSnapshot[field] = value;
+            }
+          });
+          if (Object.keys(safeSnapshot).length) savedDiagnostics[savedEvent] = safeSnapshot;
+        });
+
+        const snapshot = {};
+        diagnosticFields.forEach((field) => {
+          const value = field in details ? details[field] : field in getAuthStorageDiagnostic()
+            ? getAuthStorageDiagnostic()[field]
+            : undefined;
+          if (typeof value === "boolean" ||
+              (field === "supabaseAuthKeyCount" && Number.isInteger(value) && value >= 0)) {
+            snapshot[field] = value;
+          } else if (field === "supabaseAuthKeyCount" && value === null) {
+            snapshot[field] = null;
+          }
+        });
+        savedDiagnostics[event] = snapshot;
+        sessionStorage.setItem(authDiagnosticStorageKey, JSON.stringify(savedDiagnostics));
+      } catch {
+        // Diagnostics are best-effort and must never interrupt authentication.
+      }
+    }
+
     console.info("[IRON HOUSE auth diagnostic]", {
       diagnosticBuild: "session-persistence-v1",
       event,
@@ -439,3 +493,4 @@
     });
   }
 })();
+
