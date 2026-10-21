@@ -35,9 +35,14 @@
       const storageKey = "iron_house_auth_diagnostics_v1";
       const definitions = [
         {
+          event: "login.sign-in-result",
+          title: "Login: Supabase sign-in result",
+          fields: ["hasError", "hasSession"]
+        },
+        {
           event: "login.session-read-after-sign-in",
           title: "Login: session read after sign-in",
-          fields: ["hasReturnedSession", "hasStoredSession", "sameUser"]
+          fields: ["hasError", "hasReturnedSession", "hasStoredSession", "sameUser"]
         },
         {
           event: "dashboard.initialized",
@@ -47,7 +52,7 @@
         {
           event: "dashboard.session-check",
           title: "Dashboard: session check",
-          fields: ["hasSession"]
+          fields: ["hasError", "hasSession"]
         }
       ];
       const list = document.querySelector("#diagnostic-list");
@@ -83,3 +88,4 @@
   </script>
 </body>
 </html>
+
