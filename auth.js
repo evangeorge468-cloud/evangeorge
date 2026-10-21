@@ -85,9 +85,10 @@
     }
 
     const diagnosticFieldMap = {
-      "login.session-read-after-sign-in": ["hasReturnedSession", "hasStoredSession", "sameUser"],
+      "login.sign-in-result": ["hasError", "hasSession"],
+      "login.session-read-after-sign-in": ["hasError", "hasReturnedSession", "hasStoredSession", "sameUser"],
       "dashboard.initialized": ["localStorageWritable", "supabaseAuthKeyCount"],
-      "dashboard.session-check": ["hasSession"]
+      "dashboard.session-check": ["hasError", "hasSession"]
     };
     const diagnosticFields = diagnosticFieldMap[event];
 
